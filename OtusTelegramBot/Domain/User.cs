@@ -1,6 +1,6 @@
-﻿namespace OtusTelegramBot.Model
+﻿namespace OtusTelegramBot.Domain
 {
-    public class UserProfile
+    public class User
     {
         public int Id { get; set; }
         public string TelegramId { get; set; }

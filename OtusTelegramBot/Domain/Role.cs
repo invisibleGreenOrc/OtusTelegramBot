@@ -1,4 +1,4 @@
-﻿namespace OtusTelegramBot.Model
+﻿namespace OtusTelegramBot.Domain
 {
     public class Role
     {
