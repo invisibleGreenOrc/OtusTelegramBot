@@ -1,8 +1,9 @@
 ﻿namespace OtusTelegramBot.Domain
 {
-    public class Difficulty
+    public enum Difficulty
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        Easy,
+        Normal,
+        Hard
     }
 }
