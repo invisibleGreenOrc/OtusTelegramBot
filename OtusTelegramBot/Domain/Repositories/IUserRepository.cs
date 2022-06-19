@@ -1,6 +1,6 @@
-﻿using OtusTelegramBot.Domain;
+﻿using OtusTelegramBot.Domain.Entities;
 
-namespace OtusTelegramBot.Repositories
+namespace OtusTelegramBot.Domain.Repositories
 {
     public interface IUsersRepository
     {

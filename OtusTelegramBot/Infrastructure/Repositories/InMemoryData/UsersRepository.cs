@@ -1,7 +1,8 @@
-﻿using OtusTelegramBot.Domain;
+﻿using OtusTelegramBot.Domain.Entities;
+using OtusTelegramBot.Domain.Repositories;
 using OtusTelegramBot.InMemoryData;
 
-namespace OtusTelegramBot.Repositories.InMemoryData
+namespace OtusTelegramBot.Infrastructure.Repositories.InMemoryData
 {
     internal class UsersRepository : IUsersRepository
     {

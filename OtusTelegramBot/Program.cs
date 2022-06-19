@@ -1,4 +1,4 @@
-﻿using OtusTelegramBot.Repositories.InMemoryData;
+﻿using OtusTelegramBot.Infrastructure.Repositories.InMemoryData;
 using OtusTelegramBot.Services;
 using OtusTelegramBot.Services.UserInteraction;
 

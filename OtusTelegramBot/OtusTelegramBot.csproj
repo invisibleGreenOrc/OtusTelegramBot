@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\DB\" />
+    <Folder Include="Infrastructure\Repositories\DB\" />
   </ItemGroup>
 
 </Project>

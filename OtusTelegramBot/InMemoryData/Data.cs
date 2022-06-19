@@ -1,4 +1,4 @@
-﻿using OtusTelegramBot.Domain;
+﻿using OtusTelegramBot.Domain.Entities;
 
 namespace OtusTelegramBot.InMemoryData
 {
@@ -15,5 +15,7 @@ namespace OtusTelegramBot.InMemoryData
             new User { Id = 0, TelegramId = "termit", Name = "Иван", Role = Roles[0] },
             new User { Id = 1, TelegramId = "bug", Name = "Степан", Role = Roles[1] }
         };
+
+
     }
 }
