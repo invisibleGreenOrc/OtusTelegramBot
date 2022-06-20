@@ -1,6 +1,4 @@
-﻿using OtusTelegramBot.Domain.Entities;
-
-namespace OtusTelegramBot.Domain
+﻿namespace OtusTelegramBot.Domain.Entities
 {
     internal class Lesson
     {

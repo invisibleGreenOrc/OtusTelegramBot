@@ -20,9 +20,9 @@ namespace OtusTelegramBot.InMemoryData
 
         public static List<DifficultyDB> Difficulties { get; set; } = new()
         {
-            new DifficultyDB { Id = 0, Name = "Easy" },
-            new DifficultyDB { Id = 1, Name = "Normal" },
-            new DifficultyDB { Id = 2, Name = "Hard" }
+            new DifficultyDB { Id = 0, Name = "Легкий" },
+            new DifficultyDB { Id = 1, Name = "Средний" },
+            new DifficultyDB { Id = 2, Name = "Сложный" }
         };
 
         public static List<DisciplinesDB> Disciplines { get; set; } = new()

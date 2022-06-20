@@ -1,4 +1,4 @@
-﻿namespace OtusTelegramBot.Domain
+﻿namespace OtusTelegramBot.Domain.Entities
 {
     public class Discipline
     {
