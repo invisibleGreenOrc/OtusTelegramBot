@@ -7,7 +7,7 @@ namespace OtusTelegramBot.Infrastructure.Repositories.InMemoryData
 {
     public class UsersRepository : IUsersRepository
     {
-        public IRolesRepository _rolesRepository { get; set; }
+        private readonly IRolesRepository _rolesRepository;
 
         // Это нормально запихнуть сюда IRolesRepository?
         public UsersRepository(IRolesRepository rolesRepository)
@@ -45,7 +45,7 @@ namespace OtusTelegramBot.Infrastructure.Repositories.InMemoryData
 
         public User Get(string telegramId)
         {
-            var userDB = Data.Users.Find(user => IsTelegramIdsEqual(user.TelegramId, telegramId));
+            var userDB = Data.Users.FirstOrDefault(user => IsTelegramIdsEqual(user.TelegramId, telegramId));
 
             // А дальше завяжем логику на null, вряд ли хорошо. Если кидать исключение, то завязывать логику на ошибке? ИЛи сделать отдельно метод IsUserExists, но тогда два запроса к БД
             if (userDB is null)
@@ -66,15 +66,32 @@ namespace OtusTelegramBot.Infrastructure.Repositories.InMemoryData
 
         public User Get(int id)
         {
-            var userDB = Data.Roles.FirstOrDefault(user => user.Id == id) ?? throw new Exception();
+            var userDB = Data.Users.FirstOrDefault(user => user.Id == id) ?? throw new Exception();
 
             var user = new User()
             {
                 Id = userDB.Id,
-                Name = userDB.Name
+                TelegramId = userDB.TelegramId,
+                Name = userDB.Name,
+                Role = _rolesRepository.Get(userDB.RoleId)
             };
 
             return user;
+        }
+
+        public List<User> Get(List<int> ids)
+        {
+            var userDBs = Data.Users.Where(user => ids.Contains(user.Id)) ?? throw new Exception();
+
+            var users = userDBs.Select(user => new User()
+            {
+                Id = user.Id,
+                TelegramId = user.TelegramId,
+                Name = user.Name,
+                Role = _rolesRepository.Get(user.RoleId)
+            }).ToList();
+
+            return users;
         }
 
         public bool IsExists(string telegramId) => Data.Users.Exists(user => IsTelegramIdsEqual(user.TelegramId, telegramId));

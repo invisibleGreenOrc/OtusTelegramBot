@@ -6,7 +6,7 @@ namespace OtusTelegramBot.UserInteraction
 {
     public class UsersController
     {
-        private IUsersService _usersService;
+        private readonly IUsersService _usersService;
 
         public UsersController(IUsersService usersService)
         {
@@ -16,6 +16,12 @@ namespace OtusTelegramBot.UserInteraction
         public UserVM GetUser(string telegramId)
         {
             var user = _usersService.GetUser(telegramId);
+
+            // еще хрень
+            if (user is null)
+            {
+                return null;
+            }
 
             var userVM = new UserVM()
             {

@@ -1,7 +1,5 @@
 ﻿using OtusTelegramBot.Domain.Entities;
 using OtusTelegramBot.Domain.Repositories;
-using OtusTelegramBot.Services.UserInteraction;
-using System.Text;
 
 namespace OtusTelegramBot.Services
 {

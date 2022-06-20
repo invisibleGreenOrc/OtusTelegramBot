@@ -1,9 +1,10 @@
 ﻿using OtusTelegramBot.Domain.Entities;
+using OtusTelegramBot.Domain.Repositories;
 using OtusTelegramBot.InMemoryData;
 
 namespace OtusTelegramBot.Infrastructure.Repositories.InMemoryData
 {
-    public class DisciplinesRepository
+    public class DisciplinesRepository : IDisciplinesRepository
     {
         public Discipline Get(int id)
         {
