@@ -3,7 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32519.111
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OtusTelegramBot", "OtusTelegramBot\OtusTelegramBot.csproj", "{DFEAAAE3-8CF2-45E4-83A1-6230CF7F74CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OtusTelegramBot", "OtusTelegramBot\OtusTelegramBot.csproj", "{DFEAAAE3-8CF2-45E4-83A1-6230CF7F74CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OtusTelegramBot.InMemoryData", "OtusTelegramBot.InMemoryData\OtusTelegramBot.InMemoryData.csproj", "{01A04A1E-D88F-413D-8D5C-0FA151CB9CF5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{538CBB48-A6D9-4E7C-B5C2-C4C5CFDDD333}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{17B6C920-00A7-4B4B-9080-20BB7461FC1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OtusTelegramBot.Domain", "OtusTelegramBot.Domain\OtusTelegramBot.Domain.csproj", "{20CFFA83-807F-4782-A6EC-D8E73D9A4D28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OtusTelegramBot.Services", "OtusTelegramBot.Services\OtusTelegramBot.Services.csproj", "{7E5BFCF5-FAB9-4C4D-AF6B-0FB846C1A2D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OtusTelegramBot.Presentation", "OtusTelegramBot.Presentation\OtusTelegramBot.Presentation.csproj", "{F92B4793-CDED-40CE-8D7D-73FF1957E034}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OtusTelegramBot.Services.Abstractions", "OtusTelegramBot.Services.Abstractions\OtusTelegramBot.Services.Abstractions.csproj", "{D46E8104-9032-420B-A4C8-F479C43DD1CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +29,36 @@ Global
 		{DFEAAAE3-8CF2-45E4-83A1-6230CF7F74CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFEAAAE3-8CF2-45E4-83A1-6230CF7F74CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFEAAAE3-8CF2-45E4-83A1-6230CF7F74CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01A04A1E-D88F-413D-8D5C-0FA151CB9CF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01A04A1E-D88F-413D-8D5C-0FA151CB9CF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01A04A1E-D88F-413D-8D5C-0FA151CB9CF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01A04A1E-D88F-413D-8D5C-0FA151CB9CF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20CFFA83-807F-4782-A6EC-D8E73D9A4D28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20CFFA83-807F-4782-A6EC-D8E73D9A4D28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20CFFA83-807F-4782-A6EC-D8E73D9A4D28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20CFFA83-807F-4782-A6EC-D8E73D9A4D28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E5BFCF5-FAB9-4C4D-AF6B-0FB846C1A2D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E5BFCF5-FAB9-4C4D-AF6B-0FB846C1A2D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E5BFCF5-FAB9-4C4D-AF6B-0FB846C1A2D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E5BFCF5-FAB9-4C4D-AF6B-0FB846C1A2D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F92B4793-CDED-40CE-8D7D-73FF1957E034}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F92B4793-CDED-40CE-8D7D-73FF1957E034}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F92B4793-CDED-40CE-8D7D-73FF1957E034}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F92B4793-CDED-40CE-8D7D-73FF1957E034}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D46E8104-9032-420B-A4C8-F479C43DD1CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D46E8104-9032-420B-A4C8-F479C43DD1CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D46E8104-9032-420B-A4C8-F479C43DD1CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D46E8104-9032-420B-A4C8-F479C43DD1CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{01A04A1E-D88F-413D-8D5C-0FA151CB9CF5} = {538CBB48-A6D9-4E7C-B5C2-C4C5CFDDD333}
+		{20CFFA83-807F-4782-A6EC-D8E73D9A4D28} = {17B6C920-00A7-4B4B-9080-20BB7461FC1A}
+		{7E5BFCF5-FAB9-4C4D-AF6B-0FB846C1A2D3} = {17B6C920-00A7-4B4B-9080-20BB7461FC1A}
+		{F92B4793-CDED-40CE-8D7D-73FF1957E034} = {538CBB48-A6D9-4E7C-B5C2-C4C5CFDDD333}
+		{D46E8104-9032-420B-A4C8-F479C43DD1CA} = {17B6C920-00A7-4B4B-9080-20BB7461FC1A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {321138C4-2CE1-426E-9C51-BB2D8256FFE7}

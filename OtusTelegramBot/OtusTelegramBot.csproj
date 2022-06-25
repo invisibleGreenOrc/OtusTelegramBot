@@ -8,7 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\Repositories\DB\" />
+    <PackageReference Include="Telegram.Bot" Version="18.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OtusTelegramBot.InMemoryData\OtusTelegramBot.InMemoryData.csproj" />
+    <ProjectReference Include="..\OtusTelegramBot.Presentation\OtusTelegramBot.Presentation.csproj" />
+    <ProjectReference Include="..\OtusTelegramBot.Services\OtusTelegramBot.Services.csproj" />
   </ItemGroup>
 
 </Project>
