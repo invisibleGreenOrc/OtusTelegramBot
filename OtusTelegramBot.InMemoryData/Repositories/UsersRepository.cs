@@ -24,7 +24,7 @@ namespace OtusTelegramBot.InMemoryData.Repositories
             var userToSave = new UserDB
             {
                 Id = GetNextId(),
-                TelegramId = user.TelegramId,
+                UserId = user.UserId,
                 Name = user.Name,
                 RoleId = user.Role.Id
             };
@@ -34,7 +34,7 @@ namespace OtusTelegramBot.InMemoryData.Repositories
             var savedUser = new User()
             {
                 Id = userToSave.Id,
-                TelegramId = user.TelegramId,
+                UserId = user.UserId,
                 Name = user.Name,
                 Role = user.Role
             };
@@ -42,9 +42,9 @@ namespace OtusTelegramBot.InMemoryData.Repositories
             return savedUser;
         }
 
-        public User Get(string telegramId)
+        public User Get(long userId)
         {
-            var userDB = Data.Users.FirstOrDefault(user => IsTelegramIdsEqual(user.TelegramId, telegramId));
+            var userDB = Data.Users.FirstOrDefault(user => user.UserId == userId);
 
             // А дальше завяжем логику на null, вряд ли хорошо. Если кидать исключение, то завязывать логику на ошибке? ИЛи сделать отдельно метод IsUserExists, но тогда два запроса к БД
             if (userDB is null)
@@ -55,7 +55,7 @@ namespace OtusTelegramBot.InMemoryData.Repositories
             var user = new User()
             {
                 Id = userDB.Id,
-                TelegramId = userDB.TelegramId,
+                UserId = userDB.UserId,
                 Name = userDB.Name,
                 Role = _rolesRepository.Get(userDB.RoleId)
             };
@@ -70,7 +70,7 @@ namespace OtusTelegramBot.InMemoryData.Repositories
             var user = new User()
             {
                 Id = userDB.Id,
-                TelegramId = userDB.TelegramId,
+                UserId = userDB.UserId,
                 Name = userDB.Name,
                 Role = _rolesRepository.Get(userDB.RoleId)
             };
@@ -85,7 +85,7 @@ namespace OtusTelegramBot.InMemoryData.Repositories
             var users = userDBs.Select(user => new User()
             {
                 Id = user.Id,
-                TelegramId = user.TelegramId,
+                UserId = user.UserId,
                 Name = user.Name,
                 Role = _rolesRepository.Get(user.RoleId)
             }).ToList();
@@ -93,10 +93,8 @@ namespace OtusTelegramBot.InMemoryData.Repositories
             return users;
         }
 
-        public bool IsExists(string telegramId) => Data.Users.Exists(user => IsTelegramIdsEqual(user.TelegramId, telegramId));
+        public bool IsExists(long userId) => Data.Users.Exists(user => user.UserId == userId);
 
         private int GetNextId() => Data.Users.Select(x => x.Id).Max() + 1;
-
-        private bool IsTelegramIdsEqual(string firstTelegramId, string secondTelegramId) => string.Equals(firstTelegramId, secondTelegramId, StringComparison.InvariantCultureIgnoreCase);
     }
 }

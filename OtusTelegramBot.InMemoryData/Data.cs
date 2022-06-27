@@ -12,10 +12,10 @@ namespace OtusTelegramBot.InMemoryData
 
         public static List<UserDB> Users { get; set; } = new()
         {
-            new UserDB { Id = 0, TelegramId = "trainer1", Name = "Тренер1", RoleId = 0 },
-            new UserDB { Id = 1, TelegramId = "trainer2", Name = "Тренер2", RoleId = 0 },
-            new UserDB { Id = 2, TelegramId = "trainee1", Name = "Ученик1", RoleId = 1 },
-            new UserDB { Id = 3, TelegramId = "trainee2", Name = "Ученик2", RoleId = 1 }
+            new UserDB { Id = 0, UserId = 1, Name = "Тренер1", RoleId = 0 },
+            new UserDB { Id = 1, UserId = 2, Name = "Тренер2", RoleId = 0 },
+            new UserDB { Id = 2, UserId = 3, Name = "Ученик1", RoleId = 1 },
+            new UserDB { Id = 3, UserId = 4, Name = "Ученик2", RoleId = 1 }
         };
 
         public static List<DisciplinesDB> Disciplines { get; set; } = new()

@@ -25,9 +25,9 @@ namespace OtusTelegramBot.Services
             return _rolesRepository.GetAll();
         }
 
-        public User GetUser(string telegramId)
+        public User GetUser(long userId)
         {
-            return _usersRepository.Get(telegramId);
+            return _usersRepository.Get(userId);
         }
 
         public Role GetRole(int roleId)

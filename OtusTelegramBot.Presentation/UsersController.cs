@@ -13,9 +13,9 @@ namespace OtusTelegramBot.Presentation
             _usersService = usersService ?? throw new ArgumentNullException(nameof(usersService));
         }
 
-        public UserVM GetUser(string telegramId)
+        public UserVM GetUser(long userId)
         {
-            var user = _usersService.GetUser(telegramId);
+            var user = _usersService.GetUser(userId);
 
             // еще хрень
             if (user is null)
@@ -26,7 +26,7 @@ namespace OtusTelegramBot.Presentation
             var userVM = new UserVM()
             {
                 Id = user.Id,
-                TelegramId = user.TelegramId,
+                UserId = user.UserId,
                 Name = user.Name,
                 RoleName = user.Role.Name
             };
@@ -41,7 +41,7 @@ namespace OtusTelegramBot.Presentation
             var user = new User()
             {
                 Name = newUser.Name,
-                TelegramId = newUser.TelegramId,
+                UserId = newUser.UserId,
                 Role = role
             };
 
