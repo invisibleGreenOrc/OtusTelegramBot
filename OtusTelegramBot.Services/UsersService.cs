@@ -34,5 +34,10 @@ namespace OtusTelegramBot.Services
         {
             return _rolesRepository.Get(roleId);
         }
+
+        public bool IsUserExists(long userId)
+        {
+            return _usersRepository.IsExists(userId);
+        }
     }
 }

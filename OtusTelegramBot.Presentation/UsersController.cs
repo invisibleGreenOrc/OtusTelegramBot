@@ -47,5 +47,10 @@ namespace OtusTelegramBot.Presentation
 
             _usersService.CreateUser(user);
         }
+
+        public bool IsUserExists(long userId)
+        {
+            return _usersService.IsUserExists(userId);
+        }
     }
 }
