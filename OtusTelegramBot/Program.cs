@@ -1,11 +1,4 @@
-﻿using OtusTelegramBot.Domain.Repositories;
-using OtusTelegramBot.InMemoryData.Repositories;
-using OtusTelegramBot.Presentation;
-using OtusTelegramBot.Presentation.Model;
-using OtusTelegramBot.Services;
-using OtusTelegramBot.Services.Abstractions;
-using System.Text;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -15,37 +8,15 @@ namespace OtusTelegramBot
 {
     public class Program
     {
-
-
-        private static TelegramBotClient _botClient = new TelegramBotClient("5438845983:AAFyuIuwvoDS09embT8z3GwPM9jil-XGSCg");
+        private static TelegramBotClient _botClient;
 
         private static CommandExecutor _commandExecutor;
 
         static void Main(string[] args)
         {
-            //_userInterface.PostOutput("Введите свой telegramId");
+            _botClient = new TelegramBotClient(Environment.GetEnvironmentVariable("tgToken", EnvironmentVariableTarget.User));
 
-            //var telegramId = _userInterface.GetInput();
-
-            //GetOrCreateUser(telegramId);
-
-            //while (true)
-            //{
-            //    Console.WriteLine("Введите команду");
-
-            //    var userInput = Console.ReadLine();
-
-            //    switch (userInput)
-            //    {
-            //        case "Смотреть тренировки":
-            //            Console.WriteLine(GetFutureLessons());
-            //            break;
-            //        default:
-            //            break;
-            //    }
-            //}
-
-            _commandExecutor = new(SendMessage);
+            _commandExecutor = new CommandExecutor(SendMessage);
 
             Test();
 
@@ -93,7 +64,7 @@ namespace OtusTelegramBot
             Console.WriteLine($"Received a '{messageText}' message in chat {chatId}. -- {message.From.Username}");
 
             
-            _commandExecutor.ExecuteCommand(message.Text, (userId, userName), chatId);
+            _commandExecutor.ExecuteCommand(message.Text, userId, userName, chatId);
         }
 
         private static Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
@@ -118,12 +89,6 @@ namespace OtusTelegramBot
 
             return sentMessage;
         }
-
-
-
-
-
-
 
 
 
