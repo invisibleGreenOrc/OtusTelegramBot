@@ -3,6 +3,7 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace OtusTelegramBot
 {
@@ -16,14 +17,14 @@ namespace OtusTelegramBot
         {
             _botClient = new TelegramBotClient(Environment.GetEnvironmentVariable("tgToken", EnvironmentVariableTarget.User));
 
-            _commandExecutor = new CommandExecutor(SendMessage);
+            _commandExecutor = new CommandExecutor(SendMessage, SendCallbackQueryAnswer);
 
-            Test();
+            StartTelegraBot();
 
             Console.ReadLine();
         }
 
-        private static async void Test()
+        private static async void StartTelegraBot()
         {
             using var cts = new CancellationTokenSource();
 
@@ -50,6 +51,11 @@ namespace OtusTelegramBot
 
         private static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
+            if (update.CallbackQuery is { } query)
+            {
+                _commandExecutor.ProcessCallbackQuery(query.From.Id, query.Id, query.Data);
+            }
+
             // Only process Message updates: https://core.telegram.org/bots/api#message
             if (update.Message is not { } message)
                 return;
@@ -80,14 +86,20 @@ namespace OtusTelegramBot
             return Task.CompletedTask;
         }
 
-        static async Task<Message> SendMessage(long chatId, string messageText)
+        static async Task<Message> SendMessage(long chatId, string messageText, IReplyMarkup? replyMarkup = null)
         {
             Message sentMessage = await _botClient.SendTextMessageAsync(
                     chatId: chatId,
                     text: messageText,
+                    replyMarkup: replyMarkup,
                     cancellationToken: default);
 
             return sentMessage;
+        }
+
+        static async Task SendCallbackQueryAnswer(string queryId)
+        {
+            await _botClient.AnswerCallbackQueryAsync("queryId");
         }
 
 
