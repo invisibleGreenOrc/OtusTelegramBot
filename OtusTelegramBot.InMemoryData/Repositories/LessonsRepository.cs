@@ -1,5 +1,6 @@
 ﻿using OtusTelegramBot.Domain.Entities;
 using OtusTelegramBot.Domain.Repositories;
+using OtusTelegramBot.InMemoryData.EntitiesDB;
 
 namespace OtusTelegramBot.InMemoryData.Repositories
 {
@@ -25,7 +26,7 @@ namespace OtusTelegramBot.InMemoryData.Repositories
                 Difficulty = (Difficulty)lessonDB.DifficultyId,
                 Date = lessonDB.Date,
                 Trainer = _usersRepository.Get(lessonDB.TrainerId),
-                Trainee = GetLessonTrainees(lessonDB.Id)
+                Trainees = GetLessonTrainees(lessonDB.Id)
             };
 
             return lesson;
@@ -42,10 +43,29 @@ namespace OtusTelegramBot.InMemoryData.Repositories
                 Difficulty = (Difficulty)lessonDB.DifficultyId,
                 Date = lessonDB.Date,
                 Trainer = _usersRepository.Get(lessonDB.TrainerId),
-                Trainee = GetLessonTrainees(lessonDB.Id)
+                Trainees = GetLessonTrainees(lessonDB.Id)
             }).ToList();
 
             return lessons;
+        }
+
+        public void Create(Lesson lesson)
+        {
+            if (lesson is null)
+            {
+                throw new ArgumentNullException(nameof(lesson));
+            }
+
+            var lessonToSave = new LessonDB
+            {
+                Id = GetNextId(),
+                DisciplineId = lesson.Discipline.Id,
+                DifficultyId = (int)lesson.Difficulty,
+                Date = DateTime.Now,
+                TrainerId = lesson.Trainer.Id
+            };
+
+            Data.Lessons.Add(lessonToSave);
         }
 
         private List<User> GetLessonTrainees(int lessonId)
@@ -54,5 +74,7 @@ namespace OtusTelegramBot.InMemoryData.Repositories
             var lessonTrainees = _usersRepository.Get(traineesId);
             return lessonTrainees;
         }
+
+        private int GetNextId() => Data.Lessons.Select(x => x.Id).Max() + 1;
     }
 }

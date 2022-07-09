@@ -1,6 +1,6 @@
 ﻿namespace OtusTelegramBot.Presentation.Model
 {
-    public class RoleVM
+    public class LevelVM
     {
         public int Id { get; set; }
         public string Name { get; set; }

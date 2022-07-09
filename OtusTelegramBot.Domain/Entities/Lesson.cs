@@ -7,6 +7,6 @@
         public Difficulty Difficulty { get; set; }
         public DateTime Date { get; set; }
         public User Trainer { get; set; }
-        public List<User> Trainee { get; set; }
+        public List<User> Trainees { get; set; }
     }
 }

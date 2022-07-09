@@ -65,12 +65,11 @@ namespace OtusTelegramBot
 
             var chatId = message.Chat.Id;
             var userId = message.From.Id;
-            var userName = message.From.FirstName;
 
             Console.WriteLine($"Received a '{messageText}' message in chat {chatId}. -- {message.From.Username}");
 
             
-            _commandExecutor.ExecuteCommand(message.Text, userId, userName, chatId);
+            _commandExecutor.ExecuteCommand(message.Text, userId, chatId);
         }
 
         private static Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
@@ -86,7 +85,7 @@ namespace OtusTelegramBot
             return Task.CompletedTask;
         }
 
-        static async Task<Message> SendMessage(long chatId, string messageText, IReplyMarkup? replyMarkup = null)
+        public static async Task<Message> SendMessage(long chatId, string messageText, IReplyMarkup? replyMarkup = null)
         {
             Message sentMessage = await _botClient.SendTextMessageAsync(
                     chatId: chatId,
@@ -97,7 +96,7 @@ namespace OtusTelegramBot
             return sentMessage;
         }
 
-        static async Task SendCallbackQueryAnswer(string queryId)
+        public static async Task SendCallbackQueryAnswer(string queryId)
         {
             await _botClient.AnswerCallbackQueryAsync("queryId");
         }
