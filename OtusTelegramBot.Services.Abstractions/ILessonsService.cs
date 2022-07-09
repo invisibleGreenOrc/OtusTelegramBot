@@ -6,5 +6,8 @@ namespace OtusTelegramBot.Services.Abstractions
     {
         public List<Lesson> GetFutureLessons();
         public Discipline GetDiscipline(int id);
+        public List<Discipline> GetAllDisciplines();
+
+        public void CreateLesson(Lesson newLesson);
     }
 }

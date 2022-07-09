@@ -24,5 +24,15 @@ namespace OtusTelegramBot.Services
         {
             return _disciplinesRepository.Get(id);
         }
+
+        public List<Discipline> GetAllDisciplines()
+        {
+            return _disciplinesRepository.GetAll();
+        }
+
+        public void CreateLesson(Lesson newLesson)
+        {
+            _lessonsRepository.Create(newLesson);
+        }
     }
 }

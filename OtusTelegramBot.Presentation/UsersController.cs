@@ -52,5 +52,18 @@ namespace OtusTelegramBot.Presentation
         {
             return _usersService.IsUserExists(userId);
         }
+
+        public List<RoleVM> GetAllRoles()
+        {
+            var roles = _usersService.GetAllRoles();
+
+            var rolesVMs = roles.Select(role => new RoleVM()
+            {
+                Id = role.Id,
+                Name = role.Name
+            }).ToList();
+
+            return rolesVMs;
+        }
     }
 }

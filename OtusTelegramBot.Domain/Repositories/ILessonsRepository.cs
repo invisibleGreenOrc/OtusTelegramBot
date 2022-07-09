@@ -6,5 +6,6 @@ namespace OtusTelegramBot.Domain.Repositories
     {
         Lesson Get(int id);
         public List<Lesson> GetFutureLessons();
+        public void Create(Lesson lesson);
     }
 }
