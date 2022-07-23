@@ -7,6 +7,7 @@ using Telegram.Bot.Types;
 using OtusTelegramBot.Presentation.Model;
 using Telegram.Bot.Types.ReplyMarkups;
 using OtusTelegramBot.InMemoryData;
+using OtusTelegramBot.Domain.Entities;
 
 namespace OtusTelegramBot
 {
@@ -48,9 +49,11 @@ namespace OtusTelegramBot
             _lessonsController = new LessonsController(_lessonsService, _userService);
         }
 
-        public void ProcessCallbackQuery(long userId, string queryId, string? data)
+        public void ProcessCallbackQuery(long chatId, long userId, string queryId, string? data)
         {
-            if (_userStates.TryGetValue(userId, out var state) && state == "/start.ChooseRole")
+            string? state = string.Empty;
+
+            if (_userStates.TryGetValue(userId, out state) && state == "/start.ChooseRole")
             {
                 var newUser = new UserForCreatingVM
                 {
@@ -60,12 +63,12 @@ namespace OtusTelegramBot
                 };
 
                 _usersController.AddUser(newUser);
-                _sendMessage(newUser.UserId, $"{newUser.Name}, профиль успешно создан! Что будем делать дальше?", null);
+                _sendMessage(chatId, $"{newUser.Name}, профиль успешно создан! Что будем делать дальше?", null);
 
                 _userStates.Remove(userId);
                 _userNames.Remove(userId);
             }
-            else if (_userStates.TryGetValue(userId, out var state1) && state1 == "/create_drill.ChooseDiscipline")
+            else if (_userStates.TryGetValue(userId, out state) && state == "/create_drill.ChooseDiscipline")
             {
                 _userDrill[userId] = (disciplineId: int.Parse(data), 0, DateOnly.MinValue, TimeOnly.MinValue);
 
@@ -79,9 +82,9 @@ namespace OtusTelegramBot
 
                 var inlineKeyboard = new InlineKeyboardMarkup(buttons);
 
-                _sendMessage(userId, "Выбери уровень", inlineKeyboard);
+                _sendMessage(chatId, "Выбери уровень", inlineKeyboard);
             }
-            else if (_userStates.TryGetValue(userId, out var state2) && state2 == "/create_drill.ChooseLevel")
+            else if (_userStates.TryGetValue(userId, out state) && state == "/create_drill.ChooseLevel")
             {
                 var drillData = _userDrill[userId];
                 drillData.levelId = int.Parse(data);
@@ -89,9 +92,9 @@ namespace OtusTelegramBot
 
                 _userStates[userId] = "/create_drill.EnterDate";
 
-                _sendMessage(userId, "Укажи дату занятия в формате dd.mm.yyyy", null);
+                _sendMessage(chatId, "Укажи дату занятия в формате dd.mm.yyyy", null);
             }
-            else if (_userStates.TryGetValue(userId, out var state3) && state3 == "/create_drill.ChooseTime")
+            else if (_userStates.TryGetValue(userId, out state) && state == "/create_drill.ChooseTime")
             {
                 var time = data.Trim().Split(':');
 
@@ -109,12 +112,18 @@ namespace OtusTelegramBot
                 };
 
                 _lessonsController.AddLesson(newDrill);
-                _sendMessage(userId, $"Занятие создано {_userDrill[userId]}. Что будем делать дальше?", null);
+                _sendMessage(chatId, $"Занятие создано {_userDrill[userId]}. Что будем делать дальше?", null);
 
                 _userStates.Remove(userId);
                 _userDrill.Remove(userId);
             }
+            else if (_userStates.TryGetValue(userId, out state) && state == "/enroll_to_drill")
+            {
+                _lessonsController.AddLessonParticipant(int.Parse(data), userId);
 
+                _sendMessage(chatId, $"Вы записаны.", null);
+                _userStates.Remove(userId);
+            }
 
             _sendCallbackQueryAnswer(queryId);
         }
@@ -151,7 +160,7 @@ namespace OtusTelegramBot
 
                     _sendMessage(chatId, "Выбери дисциплину", inlineKeyboard);
 
-                    
+
                 }
                 else if (_userStates.TryGetValue(userId, out var state) && state == "/start.ChooseName")
                 {
@@ -168,7 +177,7 @@ namespace OtusTelegramBot
                 else if (_userStates.TryGetValue(userId, out var state1) && state1 == "/create_drill.EnterDate")
                 {
                     var date = command.Trim().Split('.');
-                    
+
                     var drillData = _userDrill[userId];
                     drillData.date = new DateOnly(int.Parse(date[2]), int.Parse(date[1]), int.Parse(date[0]));
                     _userDrill[userId] = drillData;
@@ -213,16 +222,27 @@ namespace OtusTelegramBot
 
                     _sendMessage(chatId, $"Выбери время", inlineKeyboard);
                 }
+                else if (command == "/enroll_to_drill")
+                {
+                    var drills = _lessonsController.GetFutureLessons();
+                    var buttons = drills.OrderBy(drill => drill.Date).Select((drill, index) => new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData($"{index + 1}. {drill.Date} {drill.DisciplineName}, сложность - {drill.Difficulty}," +
+                                                                $"тренер - {drill.TrainerDesc}", drill.Id.ToString())
+                    });
+
+                    var inlineKeyboard = new InlineKeyboardMarkup(buttons);
+                    _sendMessage(chatId, $"Выбери тренировку", inlineKeyboard);
+
+                    _userStates[userId] = "/enroll_to_drill";
+                }
             }
         }
-
         private string GetFutureLessons()
         {
             var lessons = _lessonsController.GetFutureLessons()
-                            .Select(lesson => $"{lesson.Date} {lesson.DisciplineName}, сложность - {lesson.Difficulty}, тренер - {lesson.TrainerDesc}").ToList();
-
+            .Select(lesson => $"{lesson.Date} {lesson.DisciplineName}, сложность - {lesson.Difficulty}, тренер - {lesson.TrainerDesc}").ToList();
             var lessonsDescription = string.Join('\n', lessons);
-
             if (string.IsNullOrEmpty(lessonsDescription))
             {
                 return "Нет тренировок";

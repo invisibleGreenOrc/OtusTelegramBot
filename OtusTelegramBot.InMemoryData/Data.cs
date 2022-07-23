@@ -37,16 +37,16 @@ namespace OtusTelegramBot.InMemoryData
             new LessonDB { Id = 5, DisciplineId = 4, DifficultyId = 0, Date = new DateTime(2021, 1, 3, 12, 30, 0), TrainerId = 1}
         };
 
-        public static List<LessonTraineesDB> LessonTrainees { get; set; } = new()
+        public static List<LessonParticipantsDB> LessonTrainees { get; set; } = new()
         {
-            new LessonTraineesDB {Id = 0, LessonId = 0, TraineeId = 2},
-            new LessonTraineesDB {Id = 1, LessonId = 0, TraineeId = 3},
-            new LessonTraineesDB {Id = 2, LessonId = 1, TraineeId = 2},
-            new LessonTraineesDB {Id = 3, LessonId = 2, TraineeId = 3},
-            new LessonTraineesDB {Id = 4, LessonId = 3, TraineeId = 3},
-            new LessonTraineesDB {Id = 5, LessonId = 4, TraineeId = 2},
-            new LessonTraineesDB {Id = 6, LessonId = 5, TraineeId = 3},
-            new LessonTraineesDB {Id = 6, LessonId = 5, TraineeId = 2}
+            new LessonParticipantsDB {Id = 0, LessonId = 0, TraineeId = 2},
+            new LessonParticipantsDB {Id = 1, LessonId = 0, TraineeId = 3},
+            new LessonParticipantsDB {Id = 2, LessonId = 1, TraineeId = 2},
+            new LessonParticipantsDB {Id = 3, LessonId = 2, TraineeId = 3},
+            new LessonParticipantsDB {Id = 4, LessonId = 3, TraineeId = 3},
+            new LessonParticipantsDB {Id = 5, LessonId = 4, TraineeId = 2},
+            new LessonParticipantsDB {Id = 6, LessonId = 5, TraineeId = 3},
+            new LessonParticipantsDB {Id = 6, LessonId = 5, TraineeId = 2}
         };
     }
 }

@@ -61,11 +61,21 @@ namespace OtusTelegramBot.InMemoryData.Repositories
                 Id = GetNextId(),
                 DisciplineId = lesson.Discipline.Id,
                 DifficultyId = (int)lesson.Difficulty,
-                Date = DateTime.Now,
+                Date = lesson.Date,
                 TrainerId = lesson.Trainer.Id
             };
 
             Data.Lessons.Add(lessonToSave);
+        }
+
+        public void AddLessonParticipant(int lessonId, long userId)
+        {
+            var lessonParticipant = new LessonParticipantsDB
+            {
+                Id = Data.LessonTrainees.Select(x => x.Id).Max() + 1,
+                LessonId = lessonId,
+                TraineeId = userId
+            };
         }
 
         private List<User> GetLessonTrainees(int lessonId)

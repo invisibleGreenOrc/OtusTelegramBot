@@ -34,5 +34,10 @@ namespace OtusTelegramBot.Services
         {
             _lessonsRepository.Create(newLesson);
         }
+
+        public void AddLessonParticipant(int lessonId, long userId)
+        {
+            _lessonsRepository.AddLessonParticipant(lessonId, userId);
+        }
     }
 }

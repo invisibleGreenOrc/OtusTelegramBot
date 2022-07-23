@@ -78,7 +78,7 @@ namespace OtusTelegramBot.InMemoryData.Repositories
             return user;
         }
 
-        public List<User> Get(List<int> ids)
+        public List<User> Get(List<long> ids)
         {
             var userDBs = Data.Users.Where(user => ids.Contains(user.Id)) ?? throw new Exception();
 

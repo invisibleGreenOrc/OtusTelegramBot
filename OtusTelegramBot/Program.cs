@@ -53,7 +53,8 @@ namespace OtusTelegramBot
         {
             if (update.CallbackQuery is { } query)
             {
-                _commandExecutor.ProcessCallbackQuery(query.From.Id, query.Id, query.Data);
+                _commandExecutor.ProcessCallbackQuery(query.Message.Chat.Id, query.From.Id, query.Id, query.Data);
+                //HandleCallbackQuery
             }
 
             // Only process Message updates: https://core.telegram.org/bots/api#message
@@ -70,6 +71,7 @@ namespace OtusTelegramBot
 
             
             _commandExecutor.ExecuteCommand(message.Text, userId, chatId);
+            //HandleMessage
         }
 
         private static Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)

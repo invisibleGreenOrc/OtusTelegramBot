@@ -6,7 +6,7 @@ namespace OtusTelegramBot.Domain.Repositories
     {
         User Get(long userId);
         User Get(int id);
-        public List<User> Get(List<int> ids);
+        public List<User> Get(List<long> ids);
         User Create(User user);
         bool IsExists(long userId);
     }
