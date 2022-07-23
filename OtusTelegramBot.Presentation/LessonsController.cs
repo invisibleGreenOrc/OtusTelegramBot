@@ -31,6 +31,22 @@ namespace OtusTelegramBot.Presentation
             return lessonVMs;
         }
 
+        public List<LessonVM> GetFutureLessonsForUser(long userId)
+        {
+            var lessons = _lessonsService.GetFutureLessonsForUser(userId);
+
+            var lessonVMs = lessons.Select(lesson => new LessonVM()
+            {
+                Id = lesson.Id,
+                DisciplineName = _lessonsService.GetDiscipline(lesson.Discipline.Id).Name,
+                Difficulty = GetDifficultyName(lesson.Difficulty),
+                Date = lesson.Date,
+                TrainerDesc = lesson.Trainer.Name
+            }).ToList();
+
+            return lessonVMs;
+        }
+
         public List<DisciplineVM> GetAllDisciplines()
         {
             var disciplines = _lessonsService.GetAllDisciplines();
@@ -56,26 +72,6 @@ namespace OtusTelegramBot.Presentation
             return levels;
         }
 
-        private string GetDifficultyName(Difficulty difficulty)
-        {
-            var name = string.Empty;
-
-            switch (difficulty)
-            {
-                case Difficulty.Easy:
-                    name = "Легкий";
-                    break;
-                case Difficulty.Normal:
-                    name = "Средний";
-                    break;
-                case Difficulty.Hard:
-                    name = "Сложный";
-                    break;
-            }
-
-            return name;
-        }
-
         public void AddLesson(LessonForCreatingVM newLesson)
         {
             //var role = _usersService.GetRole(newUser.RoleId);
@@ -94,6 +90,26 @@ namespace OtusTelegramBot.Presentation
         public void AddLessonParticipant(int lessonId, long userId)
         {
             _lessonsService.AddLessonParticipant(lessonId, userId);
+        }
+
+        private string GetDifficultyName(Difficulty difficulty)
+        {
+            var name = string.Empty;
+
+            switch (difficulty)
+            {
+                case Difficulty.Easy:
+                    name = "Легкий";
+                    break;
+                case Difficulty.Normal:
+                    name = "Средний";
+                    break;
+                case Difficulty.Hard:
+                    name = "Сложный";
+                    break;
+            }
+
+            return name;
         }
     }
 }

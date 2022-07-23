@@ -49,6 +49,41 @@ namespace OtusTelegramBot.InMemoryData.Repositories
             return lessons;
         }
 
+        public List<Lesson> GetFutureLessonsByTrainer(long trainerId)
+        {
+            var lessonDBs = Data.Lessons.Where(lesson => lesson.Date > DateTime.Now && lesson.TrainerId == trainerId);
+
+            var lessons = lessonDBs.Select(lessonDB => new Lesson()
+            {
+                Id = lessonDB.Id,
+                Discipline = _disciplinesRepository.Get(lessonDB.DisciplineId),
+                Difficulty = (Difficulty)lessonDB.DifficultyId,
+                Date = lessonDB.Date,
+                Trainer = _usersRepository.Get(lessonDB.TrainerId),
+                Trainees = GetLessonTrainees(lessonDB.Id)
+            }).ToList();
+
+            return lessons;
+        }
+
+        public List<Lesson> GetFutureLessonsByTrainee(long traineeId)
+        {
+            var lessonIds = Data.LessonTrainees.Where(x => x.TraineeId == traineeId).Select(x => x.LessonId);
+            var lessonDBs = Data.Lessons.IntersectBy(lessonIds, x => x.Id);
+
+            var lessons = lessonDBs.Select(lessonDB => new Lesson()
+            {
+                Id = lessonDB.Id,
+                Discipline = _disciplinesRepository.Get(lessonDB.DisciplineId),
+                Difficulty = (Difficulty)lessonDB.DifficultyId,
+                Date = lessonDB.Date,
+                Trainer = _usersRepository.Get(lessonDB.TrainerId),
+                Trainees = GetLessonTrainees(lessonDB.Id)
+            }).ToList();
+
+            return lessons;
+        }
+
         public void Create(Lesson lesson)
         {
             if (lesson is null)
@@ -76,6 +111,8 @@ namespace OtusTelegramBot.InMemoryData.Repositories
                 LessonId = lessonId,
                 TraineeId = userId
             };
+
+            Data.LessonTrainees.Add(lessonParticipant);
         }
 
         private List<User> GetLessonTrainees(int lessonId)

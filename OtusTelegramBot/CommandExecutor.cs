@@ -8,6 +8,7 @@ using OtusTelegramBot.Presentation.Model;
 using Telegram.Bot.Types.ReplyMarkups;
 using OtusTelegramBot.InMemoryData;
 using OtusTelegramBot.Domain.Entities;
+using System.Text;
 
 namespace OtusTelegramBot
 {
@@ -43,7 +44,7 @@ namespace OtusTelegramBot
             _lessonsRepository = new LessonsRepository(_disciplinesRepository, _usersRepository);
 
             _userService = new UsersService(_usersRepository, _roleRepository);
-            _lessonsService = new LessonsService(_lessonsRepository, _disciplinesRepository);
+            _lessonsService = new LessonsService(_lessonsRepository, _disciplinesRepository, _userService);
 
             _usersController = new UsersController(_userService);
             _lessonsController = new LessonsController(_lessonsService, _userService);
@@ -236,19 +237,32 @@ namespace OtusTelegramBot
 
                     _userStates[userId] = "/enroll_to_drill";
                 }
-            }
-        }
-        private string GetFutureLessons()
-        {
-            var lessons = _lessonsController.GetFutureLessons()
-            .Select(lesson => $"{lesson.Date} {lesson.DisciplineName}, сложность - {lesson.Difficulty}, тренер - {lesson.TrainerDesc}").ToList();
-            var lessonsDescription = string.Join('\n', lessons);
-            if (string.IsNullOrEmpty(lessonsDescription))
-            {
-                return "Нет тренировок";
-            }
+                else if (command == "/my_drills")
+                {
+                    var sortedDrills = _lessonsController.GetFutureLessonsForUser(userId).OrderBy(drill => drill.Date).ToList();
 
-            return lessonsDescription;
+                    if (sortedDrills == null || !sortedDrills.Any())
+                    {
+                        _sendMessage(chatId, "Нет тренировок", null);
+                    }
+                    else
+                    {
+                        var sb = new StringBuilder();
+
+                        sb.AppendLine("Твои тренировки:");
+
+                        //sortedDrills.Select((drill, index) => sb.AppendLine($"{index + 1}. {drill.Date} {drill.DisciplineName}, сложность - {drill.Difficulty}," +
+                        //                                            $"тренер - {drill.TrainerDesc}"));
+
+                        foreach (var drill in sortedDrills)
+                        {
+                            sb.AppendLine($"{ drill.Date} { drill.DisciplineName}, сложность - { drill.Difficulty}, тренер - {drill.TrainerDesc}");
+                        }
+
+                        _sendMessage(chatId, sb.ToString(), null);
+                    }
+                }
+            }
         }
     }
 }
