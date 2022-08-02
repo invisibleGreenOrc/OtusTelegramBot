@@ -13,7 +13,7 @@ namespace OtusTelegramBot
 
         private static CommandExecutor _commandExecutor;
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             _botClient = new TelegramBotClient(Environment.GetEnvironmentVariable("tgToken", EnvironmentVariableTarget.User));
 
@@ -59,17 +59,21 @@ namespace OtusTelegramBot
 
             // Only process Message updates: https://core.telegram.org/bots/api#message
             if (update.Message is not { } message)
+            {
                 return;
+            }
             // Only process text messages
             if (message.Text is not { } messageText)
+            {
                 return;
+            }
 
             var chatId = message.Chat.Id;
             var userId = message.From.Id;
 
             Console.WriteLine($"Received a '{messageText}' message in chat {chatId}. -- {message.From.Username}");
 
-            
+
             _commandExecutor.ExecuteCommand(message.Text, userId, chatId);
             //HandleMessage
         }
@@ -102,64 +106,5 @@ namespace OtusTelegramBot
         {
             await _botClient.AnswerCallbackQueryAsync("queryId");
         }
-
-
-
-
-
-        // Что-то не то
-        //public static UserVM GetOrCreateUser(string telegramId)
-        //{
-        //    var user = _usersController.GetUser(telegramId);
-
-        //    if (user is null)
-        //    {
-        //        CreateNewUser(telegramId);
-        //    }
-
-        //    user = _usersController.GetUser(telegramId);
-        //    GreetUser(user);
-
-        //    return user;
-        //}
-
-        //private static void CreateNewUser(string telegramId)
-        //{
-        //    var userToCreate = GetUserData();
-        //    userToCreate.TelegramId = telegramId;
-
-        //    _usersController.AddUser(userToCreate);
-
-        //    _userInterface.PostOutput($"Новый пользователь для {userToCreate.TelegramId} создан!");
-        //}
-
-        //private static UserForCreatingVM GetUserData()
-        //{
-        //    var user = new UserForCreatingVM();
-
-        //    _userInterface.PostOutput("Введите ваше имя");
-        //    user.Name = _userInterface.GetInput();
-
-        //    var roles = _userService.GetAllRoles();
-        //    var rolesList = new StringBuilder();
-
-        //    // Привязываться к Id вряд ли хорошая идея
-        //    foreach (var role in roles)
-        //    {
-        //        rolesList.Append($"{role.Id}. {role.Name}\n");
-        //    }
-
-        //    var roleId = 0;
-
-        //    do
-        //    {
-        //        _userInterface.PostOutput($"Выберите роль. Выберите номер роли из списка:\n{rolesList}");
-        //    }
-        //    while (!int.TryParse(_userInterface.GetInput(), out roleId) || !roles.Exists(role => role.Id == roleId));
-
-        //    user.RoleId = roleId;
-
-        //    return user;
-        //}
     }
 }
